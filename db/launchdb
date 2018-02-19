@@ -2,4 +2,4 @@
  /home/maciuch/tmp/hsqldb/dms wymien na ściecieżkę w Twoim systemie plików.
  We wskazanym folderze HSQL będzie przechowywał swoje pliki.
 
- java -cp hsqldb.jar org.hsqldb.server.Server --database.0 file:/home/maciuch/tmp/hsqldb/dms -dbname.0 dms
+ java -cp hsqldb.jar org.hsqldb.server.Server --database.0 file:D:\java\dmsJpaBaseDB\dms -dbname.0 dms

@@ -9,8 +9,12 @@ public class NoSpringApp {
   public static void main(String[] args) {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DMS");
     EntityManager em = emf.createEntityManager();
-    em.persist(new Document());
+    Document document = new Document();
+    //document.setId(2L);
+    em.getTransaction().begin();
+    em.persist(document);
     em.flush();
+    em.getTransaction().commit();
     emf.close();
   }
 
