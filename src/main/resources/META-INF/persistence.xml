@@ -14,7 +14,7 @@
                       value="jdbc:hsqldb:hsql://localhost/dms"/>
 
             <property name="javax.persistence.jdbc.user"
-                      value="SA"/>
+                      value="sa"/>
 
             <property name="javax.persistence.jdbc.password"
                       value=""/>
@@ -38,7 +38,7 @@
                       value="jdbc:hsqldb:mem:dms"/>
 
             <property name="javax.persistence.jdbc.user"
-                      value="SA"/>
+                      value="sa"/>
 
             <property name="javax.persistence.jdbc.password"
                       value=""/>
