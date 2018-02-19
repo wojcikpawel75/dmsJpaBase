@@ -14,16 +14,31 @@ public class NoSpringApp {
 
     em.getTransaction().begin();
 
-    Document document = new Document();
     User user = new User();
     Employee employee = new Employee();
 
     user.setEmployee(employee);
     employee.setUser(user);
+
     em.persist(employee);
     em.persist(user);
-    //document.setId(2L);
+
+    Document document = new Document();
+    document.setAuthor(employee);
     em.persist(document);
+
+    employee.addCreatedDocument(document);
+
+    document = new Document();
+    document.setAuthor(employee);
+    em.persist(document);
+
+    employee.addCreatedDocument(document);
+
+    em.persist(employee);
+    //em.persist(user);
+    //document.setId(2L);
+    //em.persist(document);
 
     em.flush();
     em.getTransaction().commit();
