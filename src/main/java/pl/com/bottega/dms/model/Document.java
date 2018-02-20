@@ -50,4 +50,8 @@ public class Document {
     public void setAuthor(Employee author) {
         this.author = author;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
