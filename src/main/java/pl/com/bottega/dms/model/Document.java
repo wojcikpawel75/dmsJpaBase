@@ -26,7 +26,7 @@ public class Document {
     @Basic(fetch = FetchType.LAZY)
     private String content;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     private Employee author;
 
     @ManyToOne
