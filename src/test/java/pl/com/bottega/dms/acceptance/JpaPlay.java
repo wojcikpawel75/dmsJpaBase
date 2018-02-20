@@ -116,4 +116,65 @@ public class JpaPlay {
 
         assertThat(entityManager.find(User.class, 1L).getLogin()).isEqualTo("wiesiek");
     }
+
+
+    @Test
+    public void testCascade() {
+        User user = new User();
+        Employee employee = new Employee();
+        user.setEmployee(employee);
+        employee.setUser(user);
+
+        Document document1 = new Document();
+        Document document2 = new Document();
+        Document document3 = new Document();
+
+        document1.setAuthor(employee);
+        document2.setAuthor(employee);
+        document3.setAuthor(employee);
+
+        employee.addCreatedDocument(document1);
+        employee.addCreatedDocument(document2);
+        employee.addCreatedDocument(document3);
+
+        transactionTemplate.execute(c -> {
+            entityManager.persist(user);
+            return null;
+        });
+
+        Document document = entityManager.find(Document.class, 1L);
+        assertThat(document).isNotNull();
+        document = entityManager.find(Document.class, 2L);
+        assertThat(document).isNotNull();
+        document = entityManager.find(Document.class, 3L);
+        assertThat(document).isNotNull();
+    }
+
+
+    @Test
+    public void removeEmployee() {
+        User user = new User();
+        Employee employee = new Employee();
+        user.setEmployee(employee);
+        employee.setUser(user);
+
+        transactionTemplate.execute(c -> {
+            entityManager.persist(user);
+            return null;
+        });
+
+        assertThat(entityManager.find(User.class, user.getId())).isNotNull();
+        assertThat(entityManager.find(Employee.class, employee.getId())).isNotNull();
+
+        transactionTemplate.execute(c -> {
+            Employee employeeFromDb = entityManager.find(Employee.class, employee.getId());
+            entityManager.remove(employeeFromDb);
+            return null;
+        });
+
+        assertThat(entityManager.find(User.class, user.getId())).isNull();
+        assertThat(entityManager.find(Employee.class, employee.getId())).isNull();
+    }
+
+
 }

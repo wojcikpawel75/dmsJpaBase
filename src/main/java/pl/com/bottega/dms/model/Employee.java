@@ -11,16 +11,16 @@ public class Employee {
     @GeneratedValue
     private long id;
 
-    @OneToOne(mappedBy = "employee")
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.REMOVE)
     private User user;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST)
     private Collection<Document> createdDokuments = new LinkedList<>();
 
-    @OneToMany(mappedBy = "verifier")
+    @OneToMany(mappedBy = "verifier",cascade = CascadeType.PERSIST)
     private Collection<Document> verifiedDokuments = new LinkedList<>();
 
-    @ManyToMany(mappedBy = "readBy")
+    @ManyToMany(mappedBy = "readBy", cascade = CascadeType.PERSIST)
     private Collection<Document> readDokuments = new LinkedList<>();
 
     @Embedded
