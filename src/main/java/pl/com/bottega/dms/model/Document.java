@@ -40,6 +40,9 @@ public class Document {
     )
     private Collection<Employee> readBy = new LinkedList<>();
 
+    @Enumerated(EnumType.ORDINAL)
+    private DocumentStatus status = DocumentStatus.DRAFT;
+
     public void setId(long id) {
         this.id = id;
     }

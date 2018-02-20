@@ -23,11 +23,29 @@ public class Employee {
     @ManyToMany(mappedBy = "readBy")
     private Collection<Document> readDokuments = new LinkedList<>();
 
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="countryCode",column=@Column(name="worknountrynode")),
+            @AttributeOverride(name="number",column=@Column(name="worknumber"))
+    })
+    private PhoneNumber workPhone;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="countryCode",column=@Column(name="privCountryCode")),
+            @AttributeOverride(name="number",column=@Column(name="privNumber"))
+    })
+    private PhoneNumber privatePhone;
+
     public void setUser(User user) {
         this.user = user;
     }
 
     public void addCreatedDocument(Document document) {
         createdDokuments.add(document);
+    }
+
+    public long getId() {
+        return id;
     }
 }
