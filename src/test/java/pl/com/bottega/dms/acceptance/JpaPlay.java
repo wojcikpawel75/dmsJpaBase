@@ -92,4 +92,28 @@ public class JpaPlay {
 
         assertThat(entityManager.find(User.class, 1L).getLogin()).isEqualTo("stefan");
     }
+
+    @Test
+    public void tracksEntities2() {
+        User user = new User();
+        Employee employee = new Employee();
+        user.setEmployee(employee);
+        employee.setUser(user);
+
+        transactionTemplate.execute(c -> {
+            entityManager.persist(user);
+            user.setLogin("wacek");
+            return null;
+        });
+
+        user.setLogin("krzysiek");
+
+        transactionTemplate.execute(c -> {
+            User user1 = entityManager.merge(user);
+            user1.setLogin("wiesiek");
+            return null;
+        });
+
+        assertThat(entityManager.find(User.class, 1L).getLogin()).isEqualTo("wiesiek");
+    }
 }
