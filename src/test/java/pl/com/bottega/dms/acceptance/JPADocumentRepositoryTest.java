@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.support.TransactionTemplate;
-import pl.com.bottega.dms.model.Document;
-import pl.com.bottega.dms.model.DocumentRepository;
-import pl.com.bottega.dms.model.Employee;
-import pl.com.bottega.dms.model.User;
+import pl.com.bottega.dms.model.*;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -40,18 +37,37 @@ public class JPADocumentRepositoryTest {
 
     }
 
-    @Test
+    @Test(expected = DocumentNotFoundException.class)
+    public void throwsExceptionWhenIDIsInvalid() {
+        repository.get(9999L);
+    }
+
+    @Test(expected = DocumentNotFoundException.class)
     public void removesDocument() {
 
-        savesNewDocument();
+        Employee employee = new Employee();
+        Document document = new Document();
+
+        document.setAuthor(employee);
 
         tt.execute((callback) -> {
-            repository.remove(1L);
+            repository.save(document);
             return null;
         });
 
-        assertThat(repository.get(1L)).isNull();
+        tt.execute((callback) -> {
+            repository.remove(document.getId());
+            return null;
+        });
 
+        repository.get(document.getId());
+
+    }
+
+    @Test(expected = DocumentNotFoundException.class)
+    public void throwsExceptionWhenRemovingNonExistingDocument () {
+
+        repository.remove(999L);
     }
 
 }

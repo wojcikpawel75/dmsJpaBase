@@ -16,7 +16,9 @@ public class JPADocumentRepository implements DocumentRepository {
 
     @Override
     public Document get(Long id) throws DocumentNotFoundException {
-        return entityManager.find(Document.class, id);
+        Document document = entityManager.find(Document.class, id);
+        if(document == null) throw new DocumentNotFoundException();
+        return document;
     }
 
     @Override
@@ -29,7 +31,8 @@ public class JPADocumentRepository implements DocumentRepository {
     @Override
     public void remove(Long id) throws DocumentNotFoundException {
 
-        entityManager.remove(get(id));
+        Document document = get(id);
+        entityManager.remove(document);
 
     }
 }
